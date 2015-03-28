@@ -1,0 +1,137 @@
+<csr:rule name="custom.rg.DelimRule" match="custom:rg:delim">
+	
+	<csr:class super="dt.common.page.Rule, %CSP.RuleBlock" />
+	
+	<csr:description>
+		
+		<h1>custom.rg.DelimRule</h1>
+		
+		<ul>
+			<li>Version: v2.0.1</li>
+			<li>Created: Thursday, February 5, 2009</li>
+			<li>Modified: Wednesday, June 27, 2013</li>
+			<li>Docs: <a href="https://github.com/registerguard/delim">https://github.com/registerguard/delim</a></li>
+		</ul>
+		
+		<p>
+			The <code>&lt;custom:rg:delim&gt;</code> RULE (a.k.a tag) parses a delimited string and returns an iterable <class>%ArrayOfDataTypes</class> object.</class>.
+			<br>
+			Each object has been assigned to the attribute <code>item</code> which you can access in each iteration of the tag's loop.
+		</p>
+		
+	</csr:description>
+	
+	<csr:attribute name="string"  description="String to parse (required)."                                                        type="string:STRING" required />
+	<csr:attribute name="parent"  description="Parent delimiter; the default is a `|` (pipe)."                                     type="parent:STRING"          />
+	<csr:attribute name="child"   description="Optional child delimiter."                                                          type="child:STRING"           />
+	<csr:attribute name="limit"   description="Limit the number of parsed items returned; the default is `0` (no limit)."          type="limit:INTEGER"          />
+	<csr:attribute name="reverse" description="Use to reverse the direction of the loop; this attribute does not require a value." type="reverse:STRING"         />
+	<csr:attribute name="key"     description="The loop key variable name; the default name is `key`."                             type="key:STRING"             />
+	<csr:attribute name="count"   description="Local loop counter variable name; the default name is `count`."                     type="count:INTEGER"          />
+	<csr:attribute name="item"    description="Local item object variable name; the default name is `item`."                       type="item:OBJECT"            />
+	<csr:attribute name="total"   description="Local variable name for total number of parent items; the default name is `total`." type="total:INTEGER"          />
+	<csr:attribute name="obj"     description="Local `%ArrayOfDataTypes` object variable name; the default name is `obj`."         type="obj:OBJECT"             />
+	
+	<csr:action>
+		
+		<script language="cache" runat="compiler">
+			do ##this.RenderDTStartTag()
+		</script>
+		
+		<script language="cache" runat="compiler">
+			
+			; Initialize:
+			new csr
+						
+			; QuoteAttribute: The value is quoted for substitution with #()#, ##( )## and ##''## expressions resolved.
+			set csr("string") = ##this.QuoteAttribute("string",  "")
+			set csr("parent") = ##this.QuoteAttribute("parent", "|")
+			set csr("child")  = ##this.QuoteAttribute("child",   "")
+			set csr("limit")  = ##this.QuoteAttribute("limit",  "0")
+			
+			; GetAttribute: The value already has any ##( )## and ##''## expressions resolved.
+			set csr("key")   = ##this.GetAttribute("key",     "key")
+			set csr("count") = ##this.GetAttribute("count", "count")
+			set csr("item")  = ##this.GetAttribute("item",   "item")
+			set csr("total") = ##this.GetAttribute("total", "total")
+			set csr("obj")   = ##this.GetAttribute("obj",     "obj")
+			
+			; Reverse the output?
+			set csr("next") = $case(..IsDefined("reverse"), 1:"Previous", :"Next")
+			
+			; Initialize blocks and labels:
+			do ##this.NewBlock()
+			set ##this.EndLabel = ##this.GetNewLabel()
+			set ##this.NextLabel = ##this.GetNewLabel()
+			
+			/*----------------------------------( OUTPUT )----------------------------------*/
+			
+			; New vars:
+			do ##this.WriteServer(" new " _ csr("key") _ ", " _ csr("count") _ ", " _ csr("item") _ ", " _ csr("total") _ ", " _ csr("obj") ) // Warning: You must/should declare all 'runat="server"' variables as 'new'!
+			
+			; Parse the string:
+			do ##this.WriteServer(" set " _ csr("obj") _ " = ##class(custom.rg.Delim).parse(" _ csr("string") _ ", " _ csr("parent") _ "," _ csr("child") _ ", " _ csr("limit") _ ") ")
+			
+			; Count parent items:
+			do ##this.WriteServer(" set " _ csr("total") _ " = " _ csr("obj") _ ".Count() ")
+			
+			; Quit if there's no items:
+			do ##this.WriteServer(" if (" _ csr("total") _ " = 0) { ")
+			do ##this.WriteServer(" 	goto " _ ##this.EndLabel _ " ;{ ")
+			do ##this.WriteServer(" } ")
+			
+			; Initialze key:
+			do ##this.WriteServer(" set " _ csr("key") _ " = """" ")
+			
+			; Initialize count:
+			do ##this.WriteServer(" set " _ csr("count") _ " = 0 ")
+			
+			; Setup NextLabel for looping:
+			do ##this.WriteServer( ##this.NextLabel )
+			
+			; Update count:
+			do ##this.WriteServer(" set " _ csr("count") _ " = " _ csr("count") _ " + 1" )
+			
+			; Get a delim object:
+			do ##this.WriteServer(" set " _ csr("item") _ " = " _ csr("obj") _ ".Get" _ csr("next") _ "(." _ csr("key") _ ") ")
+			
+			; Check to see if we're done looping:
+			do ##this.WriteServer(" if (" _ csr("key") _ " = """") { ")
+			do ##this.WriteServer(" 	goto " _ ##this.EndLabel _ " ;{ ") // We're done, go to EndLabel.
+			do ##this.WriteServer(" } ")
+			
+			kill csr
+			
+		</script>
+		
+		<csr:children />
+		
+		<script language="cache" runat="compiler">
+			
+			; Handle labels and blocks:
+			do ##this.WriteServer(" goto " _ ##this.NextLabel) // Go back up!
+			do ##this.WriteServer( ##this.EndLabel _ " ;} ") // We're done looping...
+			do ##this.RemoveBlock() // Remove the block!
+			
+			; Initialize:
+			new csr
+			
+			; Get attributes:
+			set csr("key")   = ##this.GetAttribute("key",     "key")
+			set csr("count") = ##this.GetAttribute("count", "count")
+			set csr("item")  = ##this.GetAttribute("item",   "item")
+			set csr("total") = ##this.GetAttribute("total", "total")
+			set csr("obj")   = ##this.GetAttribute("obj",     "obj")
+			
+			; Server garbage collection:
+			do ##this.WriteServer(" kill " _ csr("key") _ ", " _ csr("count") _ ", " _ csr("item") _ ", " _ csr("total") _ ", " _ csr("obj") )
+			
+		</script>
+		
+		<script language="cache" runat="compiler">
+			do ##this.RenderDTEndTag()
+		</script>
+		
+	</csr:action>
+	
+</csr:rule>

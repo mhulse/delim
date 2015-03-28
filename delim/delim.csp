@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+
+<head>
+	
+	<meta charset="utf-8">
+	
+	<title>Delim examples</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<style>
+		<!--
+			
+			/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
+			article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden]{display:none}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}
+			
+			html { color: #000; }
+			body {
+				font-family: Arial, sans-serif; /* Serif: Cambria, Georgia, serif; */
+				font-size: 100.01%;
+				line-height: 1.4;
+			}
+			
+			h1 { margin-top: 0; }
+			
+			section {
+				border: 1px solid #ccc;
+				margin: 20px 0;
+				padding: 20px;
+			}
+			
+			hr {
+				border: 0;
+				border-top: 1px solid #ccc;
+				height: 1px;
+				margin: 20px 0 11px;
+				padding: 0;
+			}
+			
+			/* Responsive images: */
+			img {
+				width: auto\9; /* IE */
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+				vertical-align: middle;
+				border: 0;
+				-ms-interpolation-mode: bicubic;
+				margin-bottom: 5px;
+			}
+			
+			code {
+				font: 1em Consolas, Menlo, Monaco, "Lucida Console", "Liberation Mono", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Courier New", monospace, serif;
+				color: #333;
+				background: rgba(0, 0, 0, .1);
+				padding: 0 2px;
+				-webkit-border-radius: 3px;
+				   -moz-border-radius: 3px;
+						border-radius: 3px;
+				white-space: pre;           /* CSS 2.0     */
+				white-space: pre-wrap;      /* CSS 2.1     */
+				white-space: pre-line;      /* CSS 3.0     */
+				white-space: -pre-wrap;     /* Opera 4-6   */
+				white-space: -o-pre-wrap;   /* Opera 7     */
+				white-space: -moz-pre-wrap; /* Mozilla     */
+				white-space: -hp-pre-wrap;  /* HP Printers */
+				word-wrap: break-word;      /* IE 5+       */
+			}
+			
+			#container {
+				margin: 0 20px;
+				padding: 20px 0;
+			}
+			
+			.gone { display: none !important; visibility: hidden; }
+			
+			/* Wrap multimedia elements with: */
+			.mm {
+				height: 0;
+				padding-bottom: 56.25%; /* 16x9 ratio */
+				position: relative;
+				overflow: hidden;
+				margin: 0 0 10px;
+			}
+				.mm iframe,
+				.mm object,
+				.mm embed {
+					width: 100% !important;
+					height: 100% !important;
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+				/* Slideshows: */
+				.ss { padding-bottom: 66.666%; } /* 3x2 ratio */
+			
+		-->
+	</style>
+	
+</head>
+<body>
+	
+	<div id="container">
+		
+		<h1><a href="https://github.com/registerguard/delim">Delim</a> examples</h1>
+		
+		<section>
+			
+			<h1>Basic usage</h1>
+			
+			#[ new string set string = "First | Second | Third | Fourth | Fifth |    ||||||||||||||||||||||" ]#
+			
+			<ul>
+				
+				<custom:rg:delim string="#(string)#">
+					
+					<li>Parent count: #(count)#. Parent total: #(total)#. Parent key: #(key)#. Children count: #(item.Count())#.</li>
+					
+					<li>Item: '#(item.GetNext())#'</li>
+					
+				</custom:rg:delim>
+				
+			</ul>
+			
+			<h2>Only two items, reversed</h2>
+			
+			<ul>
+				
+				<custom:rg:delim string="#(string)#" limit="2" reverse>
+					
+					<li>Parent count: #(count)#. Parent total: #(total)#. Parent key: #(key)#. Children count: #(item.Count())#.</li>
+					
+					<li>Item: '#(item.GetNext())#'</li>
+					
+				</custom:rg:delim>
+				
+			</ul>
+			
+			#[ kill string ]#
+			
+		</section>
+		
+		<hr class="gone">
+		
+		<section>
+			
+			<h1>All attributes</h1>
+			
+			#[ new string set string = "1 | 2 | 3 | 4, A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|and|Z, Ducks | Geese | Cows" ]#
+			
+			<ul>
+				
+				<custom:rg:delim string="#(string)#" parent="," child="|" reverse key="k" count="c" item="i" total="t" obj="o">
+					
+					<li>
+						
+						Parent count: #(c)#. Parent total: #(t)#. Parent key: #(k)#. Children count: #(i.Count())#. Object: #(o)#.
+						
+						<ul>
+							
+							<csp:loop counter="x" from="1" to="#(i.Count())#">
+								
+								<li>#(i.GetAt(x))#</li>
+								
+							</csp:loop>
+							
+							#[ kill x ]#
+							
+						</ul>
+					
+					</li>
+					
+				</custom:rg:delim>
+				
+			</ul>
+			
+			#[ kill string ]#
+			
+		</section>
+		
+		<hr class="gone">
+		
+		<section>
+			
+			<h1>Maps</h1>
+			
+			<script language="cache" runat="server">
+				
+				new string
+				
+				set string = $listtostring(
+					$listbuild(
+						"44.052069 | -123.086754 | Eugene, Oregon | Eugene is the third largest city in Oregon.",
+						"44.085777 | -123.052457 | The Register-Guard | Eugene's local newspaper."
+					),
+					$char(10)
+				)
+				
+			</script>
+			
+			<custom:rg:delim string="#(string)#" parent="#($char(10))#" child="|">
+				
+				#[ new lat, lon, title, description set (lat, lon, title, description) = "" ]#
+				
+				<ul>
+					
+					<li>Parent count: #(count)#. Parent total: #(total)#. Parent key: #(key)#. Children count: #(item.Count())#.</li>
+					
+					<csp:if condition=(item.IsDefined(1))>
+						
+						#[ set lat = item.GetAt(1) ]#
+						
+						<li>Lattitude: '#(lat)#'</li>
+						
+					</csp:if>
+					
+					<csp:if condition=(item.IsDefined(2))>
+						
+						#[ set lon = item.GetAt(2) ]#
+						
+						<li>Longitude: '#(lon)#'</li>
+						
+					</csp:if>
+					
+					<csp:if condition=(item.IsDefined(3))>
+						
+						#[ set title = item.GetAt(3) ]#
+						
+						<li>Title: '#(title)#'</li>
+						
+					</csp:if>
+					
+					<csp:if condition=(item.IsDefined(4))>
+						
+						#[ set description = item.GetAt(4) ]#
+						
+						<li>Description: '#(description)#'</li>
+						
+					</csp:if>
+					
+				</ul>
+				
+				<a href="http://maps.google.com/?q=#(lat)#,#(lon)#&amp;z=13">
+					<img src="http://maps.googleapis.com/maps/api/staticmap?center=#(lat)#,#(lon)#&amp;zoom=13&amp;size=400x300&amp;maptype=roadmap&amp;markers=#(lat)#,#(lon)#&amp;sensor=false&amp;visual_refresh=true" alt="#(title)#: #(description)#">
+				</a>
+				
+				<csp:if condition='count &#39;= total'>
+					<hr>
+				</csp:if>
+				
+				#[ kill lat, lon, title, description ]#
+				
+			</custom:rg:delim>
+			
+			#[ kill string ]#
+			
+			<hr>
+			
+			<p>
+				For a quick way to generate a string that looks like this:
+				<br>
+				<code>44.052069 | -123.086754 | Eugene, Oregon | Eugene is the third largest city in Oregon.</code>
+				<br>
+				Drag <b><a href="javascript:(function(){var%20d='|';var%20b=window.gApplication.getMap().getCenter().toString().replace(/[^\d.,-]/g,'').split(',');var%20c=prompt('Title:\nNo%20title?%20Hit%20return%20key.','');var%20a=prompt('Description:\nNo%20description?%20Hit%20return%20key.','');if(c.length>0){c=d+c}if(a.length>0){a=d+a;if(c.length<=0){a=d+a}}prompt('Copy%20to%20your%20clipboard:',b[0]+d+b[1]+c+a)})();">RG Google Map Maker</a></b> link/bookmarklet to your browser toolbar; Next, visit <a href="https://maps.google.com/">Google Maps</a>, find a location, click on the bookmarklet and follow the on-screen instructions.
+			</p>
+			
+		</section>
+		
+		<hr class="gone">
+		
+		<section>
+			
+			<h1>Videos</h1>
+			
+			<script language="cache" runat="server">
+				
+				new string
+				
+				set string = $listtostring(
+					$listbuild(
+						"http://www.youtube.com/watch?v=JJI4WBSttA4 | First video",
+						"http://vimeo.com/68047477 | Second video",
+						"http://www.youtube.com/watch?v=wMxmWH5lR3o"
+					),
+					$char(10)
+				)
+				
+			</script>
+			
+			<custom:rg:delim string="#(string)#" parent="#($char(10))#" child="|">
+				
+				<p>Parent count: #(count)#. Parent total: #(total)#. Parent key: #(key)#. Children count: #(item.Count())#.</p>
+				
+				<hr>
+				
+				<csp:if condition=(item.IsDefined(1))>
+					
+					#[ new uri set uri = item.GetAt(1) ]#
+					
+					<csp:if condition='$find(uri, "youtube.com")'>
+						
+						<figure>
+							
+							<csp:if condition='$find(uri, "playlist")'>
+								
+								<csp:comment> Playlist </csp:comment>
+								
+								<div class="mm"><iframe width="300" height="169" src="http://www.youtube.com/embed/videoseries?list=#($piece(uri, "=", 2))#" frameborder="0" allowfullscreen></iframe></div>
+								
+							<csp:else>
+								
+								<csp:comment> Single video </csp:comment>
+								
+								<div class="mm"><iframe width="300" height="169" src="http://www.youtube.com/embed/#($piece(uri, "=", 2))#?hd=1" frameborder="0" allowfullscreen></iframe></div>
+								
+							</csp:if>
+							
+							<csp:if condition=(item.IsDefined(2))>
+								
+								<figcaption>
+									
+									<p>Caption: #(item.GetAt(2))#</p>
+									
+								</figcaption>
+								
+							</csp:if>
+							
+						</figure>
+						
+					<csp:elseif condition='$find(uri, "vimeo.com")'>
+						
+						<figure>
+							
+							<div class="mm"><iframe src="http://player.vimeo.com/video/#($zstrip(uri, "*E'N"))#" width="300" height="169" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>
+							
+							<csp:if condition=(item.IsDefined(2))>
+								
+								<figcaption>
+									
+									<p>Caption: #(item.GetAt(2))#</p>
+									
+								</figcaption>
+								
+							</csp:if>
+							
+						</figure>
+						
+					</csp:if>
+					
+					<csp:if condition='count &#39;= total'>
+						<hr>
+					</csp:if>
+					
+					#[ kill uri ]#
+					
+				</csp:if>
+				
+			</custom:rg:delim>
+			
+			#[ kill string ]#
+			
+		</section>
+		
+		<hr class="gone">
+		
+		<section>
+			
+			<h1>Debug:</h1>
+			
+			<script language="cache" runat="server">
+				
+				; Debug:
+				write !, "<pre>"
+				try {
+					set currIO = ##class(%SYS.NLS.Device).SetIO("HTML")
+					zwrite
+				}
+				catch {
+					write "ERROR: ", $ZERROR
+				}
+				if ($get(currIO) '= "") {
+					do ##class(%SYS.NLS.Device).SetIO(currIO)
+				}
+				write "</pre>"
+				
+			</script>
+			
+		</section>
+		
+	</div> <!-- /#container -->
+	
+</body>
+</html>
